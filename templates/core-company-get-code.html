@@ -1,0 +1,35 @@
+{% extends 'base_front.html' %}
+{% load static %}
+{% block content %}
+<div class="px-4 py-5 my-5 text-center">
+  <img class="d-block mx-auto mb-4" src="{{ MEDIA_URL }}/defaults/company-default.webp" alt="" width="72" height="57">
+  <h1 class="display-5 fw-bold">Add Company Code</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">Please get company code from your admin.</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <form method="POST" action=".">
+        {% csrf_token %}
+        <div class="input-group">
+            <input
+            name="companyCode"
+              type="text"
+              class="form-control"
+              placeholder="CODE"
+              aria-label="Company Code"
+              aria-describedby="button-addon2"
+            />
+            <button name='getCodeButton' class="btn btn-outline-primary" type="submit" id="button-addon2">Go</button>
+        </div>
+      </form>
+    </div>
+    <div class="px-4 py-4">
+      <button type="button" class="btn btn-outline-primary" value="Previous Page" onClick="javascript:history.go(-1);">
+        <span>
+          <i class='tf-icons bx bx-arrow-back'></i>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

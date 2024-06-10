@@ -1,0 +1,90 @@
+{% extends 'base_front.html' %}
+{% load static %}
+{% block content %}
+<div class="px-4 py-1 my-5 text-center">
+  <h1 class="display-5 fw-bold">Create a Company</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-5">
+      The information that you will put here is editable later.
+    </p>
+  </div>
+  <hr>
+</div>
+<div class="container col-md-5 mb-4">
+  <div class="d-flex align-items-start align-items-sm-center gap-4 my-1">
+    <img 
+    class="rounded d-block shadow-4-strong" 
+    alt="avatar2" 
+    src="{{ MEDIA_URL }}/defaults/company-default.webp"
+    height="100"
+    width="100"
+    id="uploadedAvatar" />
+    <div class="button-wrapper">
+      <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+      <span class="d-none d-sm-block">Upload company logo</span>
+      <i class="bx bx-upload d-block d-sm-none"></i>
+      <input
+        name="logo"
+        type="file"
+        id="upload"
+        class="account-file-input"
+        hidden
+        accept="image/png, image/jpeg"
+      />
+      </label>
+    </div>
+  </div>
+  <div class="row center-form">
+    <div class="col-md-12">
+      <form action="." method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="companyName" class="form-label">Company Name</label>
+          <input name="companyName" type="text" class="form-control" id="companyName" placeholder="Enter company name">
+        </div>
+        <div class="mb-3">
+          <label for="tagline" class="form-label">Tagline</label>
+          <input name='tagline' type="text" class="form-control" id="tagline">
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">Address</label>
+          <textarea name="address" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="taxID" class="form-label">Tax ID</label>
+          <input type="taxID" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="contactNumber" class="form-label">Contact Number</label>
+          <textarea name="contactNumber" class="form-control" rows="1"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input name='email' id="email" type="email" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="stockDeductionType" class="form-label">Stock Deduction Type</label>
+          <select name="stockDeductionType" class="form-select" id="stockDeductionType" aria-label="Default select example">
+            <option value="FIFO">First-in-first-out (FIFO)</option>
+            <option value="MA" selected>Moving Average (MA)</option>
+          </select>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-outline-primary" value="Previous Page" onClick="javascript:history.go(-1);">
+            <span>
+              <i class='tf-icons bx bx-arrow-back'></i>
+            </span>
+          </button>
+          <button name="createCompanyButton" type="submit" class="btn btn-primary btn-block">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'assets/js/pages-account-settings-account.js' %}"></script>
+{% endblock javascript %}

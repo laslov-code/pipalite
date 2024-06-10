@@ -1,0 +1,133 @@
+{% extends 'html.html' %}
+{% load static %}
+  {% block html %}
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Pipalite - {% block title %}{% endblock title %}</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon/favicon.ico' %}" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/boxicons.css' %}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/css/core.css' %}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/css/theme-default.css' %}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+
+    <!-- Page CSS -->
+    {% block css %} {% endblock css %}
+    <!-- Helpers -->
+    <script src="{% static 'assets/vendor/js/helpers.js' %}"></script>
+
+    <!-- Alert CSS -->
+    <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/toastr.css' %}" media="all">
+
+    <!-- Alert JS -->
+    <script type="text/javascript" src="{% static 'assets/js/toastr.min.js' %}"></script>  
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{% static 'assets/js/config.js' %}"></script>
+
+    <!-- OVERRIDE BOOTSTRAP CSS -->
+    <style type="text/css">
+      .btn-outline-light {color:#323232 !important;}
+      a:hover {
+        opacity: 0.8 !important;
+      }
+    </style>
+    <!-- OVERRIDE BOOTSTRAP CSS -->
+  </head>
+
+  <body>
+    {% include 'alert.html' %}
+    <!-- COMPANY VALIDATION -->
+    {% if user.userprofile.company is None %}
+      {% include 'core-no-company-error.html' %}
+    {% else %}
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        {% include 'base-sidebar.html' %}
+        <!-- Layout container -->
+        <div class="layout-page">
+          
+          <!-- Navbar -->
+
+         {% include 'navbar.html' %}
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+              {% block content %}
+              {% endblock content %}
+            <!-- / Content -->
+            <!-- Footer -->
+            <footer class="content-footer footer bg-footer-theme">
+              <div class="container-fluid d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                <div class="mb-2 mb-md-0">
+                  by Laslov
+                </div>
+                <div>
+                  <a href="#" class="footer-link me-4" target="_blank">File a Bug</a>
+                  <a href="#" target="_blank" class="footer-link me-4">Warranty Policy</a>
+                </div>
+              </div>
+            </footer>
+            <!-- / Footer -->
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'assets/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'assets/vendor/js/bootstrap.js' %}"></script>
+    <script src="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+
+    <script src="{% static 'assets/vendor/js/menu.js' %}"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <!-- Page JS -->
+    {% block javascript %}
+    {% endblock javascript %}
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+
+    {% endif %}
+  </body>
+{% endblock html %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Account Settings /</span> Configuration</h4>
+
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="nav nav-pills flex-column flex-md-row mb-3">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'userprofile:account' %}"><i class="bx bx-user me-1"></i> Account</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'userprofile:config' %}"
+              ><i class="bx bx-bell me-1"></i> Configuration</a
+            >
+          </li>
+        </ul>
+        <div class="card mb-4">
+          <h5 class="card-header">Change Username and Password</h5>
+          <!-- Account -->
+          <div class="card-body">
+            <form id="formAccountSettings" method="POST" action=".">
+              {% csrf_token %}
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="username" value="{{ request.user.username }}" name="username" />
+                </div>
+                <div class="mb-3 col-md-6">
+                    <label for="html5-password-input" class="col-md-2 col-form-label">Password</label>
+                    <input class="form-control" type="password" value="{{ request.user.password1}}" id="html5-password-input" name="password"/>
+                </div>      
+              <div class="mt-2">
+                <button type="submit" name="submitButton" class="btn btn-primary me-2">Save changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <h5 class="card-header">{% if perms.userprofile.can_update_role %}Update {% endif %}Roles</h5>
+            <div class="card-body">
+              <!-- FORM HERE -->
+              <form id="formAccountSettings" method="POST" action=".">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    {% if perms.userprofile.can_update_role %}
+                      {% for group in groups %}
+                        {% if group.name in user_group %}
+                          <input type="checkbox" class="btn-check" name="{{group.pk}}" id="{{ group.name }}" checked autocomplete="off" />
+                          <label class="btn btn-outline-secondary" for="{{ group.name }}">{{ group.name }}</label>
+                        {% else %}
+                          <input type="checkbox" class="btn-check" name="{{group.pk}}" id="{{ group.name }}" autocomplete="off" />
+                          <label class="btn btn-outline-secondary" for="{{ group.name }}">{{ group.name }}</label>
+                        {% endif %}
+                      {% endfor %}
+                    {% else %}
+                      {% for group in groups %}
+                          {% if group.name in user_group %}
+                            <input type="checkbox" class="btn-check" name="{{group.pk}}" id="{{ group.name }}" checked disabled autocomplete="off" />
+                            <label class="btn btn-outline-secondary" for="{{ group.name }}">{{ group.name }}</label>
+                          {% else %}
+                            <input type="checkbox" class="btn-check" name="{{group.pk}}" id="{{ group.name }}"disabled autocomplete="off" />
+                            <label class="btn btn-outline-secondary" for="{{ group.name }}">{{ group.name }}</label>
+                          {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="warehouse" class="form-label">Warehouse</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="warehouse"
+                    name="warehouse"
+                    value="{{ user.userprofile.warehouse.name }}"
+                    disabled
+                  />
+                </div>
+                <div class="mt-2">
+                  {% if perms.user_profile.can_update_role %}
+                  <button type="submit" name="updateRoleButton" class="btn btn-primary me-2">Save changes</button>
+                  {% endif %}
+                </div> 
+              </form> 
+            </div>        
+          <!-- /Account -->
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}

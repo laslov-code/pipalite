@@ -1,0 +1,14 @@
+Good day, this is my Dev Log Created on Mar. 17, 2024
+
+Tasks for Mar 17, 2024:
+- (DONE) Add log out button for company set up without assigned company. 
+    - Solution: add a footer at base_front.html 
+- create Branch Module
+    - solution: tab it to Company Settings
+    - solution: inherit via include
+    - solution: add restrictions
+
+Accomplishment for Mar 17, 2024
+- Add log out button for company set up without assigned company. 
+- Company Settings Module DONE
+

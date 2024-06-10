@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block css %}
+{% endblock css %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Account Settings /</span> Account</h4>
+
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="nav nav-pills flex-column flex-md-row mb-3">
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'userprofile:account' %}"><i class="bx bx-user me-1"></i> Account</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'userprofile:config' %}"
+              ><i class="bx bx-bell me-1"></i> Configuration</a
+            >
+          </li>
+        </ul>
+        <div class="card mb-4">
+          <h5 class="card-header">Profile Details</h5>
+          <!-- Account -->
+          <div class="card-body">
+            <form id="formAccountSettings" method="POST" action="{% url 'userprofile:account' %}" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="d-flex align-items-start align-items-sm-center gap-4">
+              <img
+                src="{{ user.userprofile.avatar.url }}"
+                alt="user-avatar"
+                class="d-block rounded"
+                height="100"
+                width="100"
+                id="uploadedAvatar"
+              />
+              <div class="button-wrapper">
+                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                  <span class="d-none d-sm-block">Upload new photo</span>
+                  <i class="bx bx-upload d-block d-sm-none"></i>
+                  <input
+                    type="file"
+                    id="upload"
+                    name="upload"
+                    class="account-file-input"
+                    hidden
+                    accept="image/png, image/jpeg"
+                  />
+                </label>
+                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                  <i class="bx bx-reset d-block d-sm-none"></i>
+                  <span class="d-none d-sm-block">Reset</span>
+                </button>
+
+                <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+              </div>
+            </div>
+          </div>
+          <hr class="my-0" />
+          <div class="card-body">
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value="{{ user.userprofile.first_name }}"
+                    autofocus
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input class="form-control" type="text" name="lastName" id="lastName" value="{{ request.user.userprofile.last_name }}" />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="email" class="form-label">E-mail</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="email"
+                    name="email"
+                    value="{{ request.user.email }}"
+                    placeholder="john.doe@example.com"
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label class="form-label" for="phoneNumber">Phone Number</label>
+                  <div class="input-group input-group-merge">
+                    <span class="input-group-text">PH (+63)</span>
+                    <input
+                      type="text"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      class="form-control"
+                      placeholder="202 555 0111"
+                      value="{{ user.userprofile.phone_number }}"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="html5-date-input" class="form-label">Birth Date</label>
+                  <div class="col-md-12">
+                    <input class="form-control" type="date" name='birthdate' value="{{ user.userprofile.birthdate|date:'Y-m-d' }}" id="html5-date-input" /></div>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="address" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="address" value="{{ user.userprofile.address }}" name="address" placeholder="Address" />
+                </div> 
+                <div class="mb-3 col-md-6">
+                  <label for="tin" class="form-label">TIN Number</label>
+                  <input type="text" class="form-control" id="tin" value="{{user.userprofile.tin}}" name="tin" placeholder="TIN number" />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="sss" class="form-label">SSS Number</label>
+                  <input type="text" class="form-control" id="sss" value="{{user.userprofile.sss}}" name="sss" placeholder="SSS number" />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="pagibig" class="form-label">PAGIBIG Number</label>
+                  <input type="text" class="form-control" id="pagibig" value="{{user.userprofile.pagibig}}" name="pagibig" placeholder="PAGIBIG number" />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="philhealth" class="form-label">PHILHEALTH Number</label>
+                  <input type="text" class="form-control" id="philhealth" value="{{user.userprofile.philhealth}}" name="philhealth" placeholder="PHILHEALTH number" />
+                </div>
+                <div class="divider">
+                  <div class="divider-text">Emergency</div>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="emergencyContact" class="form-label">Emergency Contact Person</label>
+                  <input type="text" class="form-control" id="emergencyContact" value="{{user.userprofile.emergency_contact}}" name="emergencyContact" placeholder="Emergency Contact Person" />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="emergencyContactNumber" class="form-label">Emergency Contact Number</label>
+                  <input type="text" class="form-control" id="emergencyContactNumber" value="{{user.userprofile.emergency_contact_number}}" name="emergencyContactNumber" placeholder="Emergency Contact Person" />
+                </div>
+                                       
+              <div class="mt-2">
+                <button type="submit" name='buttonUpdateAccount' class="btn btn-primary me-2">Save changes</button>
+                <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+              </div>
+          </div>
+        </form>
+          <!-- /Account -->
+        </div>
+        <div class="card">
+          <h5 class="card-header">Delete Account</h5>
+          <div class="card-body">
+            <div class="mb-3 col-12 mb-0">
+              <div class="alert alert-warning">
+                <h6 class="alert-heading fw-bold mb-1">Are you sure you want to delete your account?</h6>
+                <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
+              </div>
+            </div>
+            <form id="formAccountDeactivation" action="{% url 'userprofile:deactivate' %}" method="POST">
+              {% csrf_token %}
+              <div class="form-check mb-3">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="accountActivation"
+                  id="accountActivation"
+                />
+                <label class="form-check-label" for="accountActivation"
+                  >I confirm my account deactivation</label
+                >
+              </div>
+              <button type="submit" id="buttonDeactivate" name='buttonDeactivate' disabled class="btn btn-danger deactivate-account">Deactivate Account</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'assets/js/pages-account-settings-account.js' %}"></script>
+
+<script>
+$('#accountActivation').change(function () {
+  $('#buttonDeactivate').prop("disabled", !this.checked);
+}).change()
+</script>
+{% endblock javascript %}

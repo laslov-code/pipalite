@@ -1,0 +1,66 @@
+{% extends 'base_front.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+      <div class="authentication-inner">
+        <!-- Register Card -->
+        <div class="card">
+          <div class="card-body">
+            <!-- Logo -->
+            <div class="app-brand justify-content-center">
+              <a href="{% url 'core:login' %}" class="app-brand-link gap-2">
+            
+              </a>
+            </div>
+            <!-- /Logo -->
+            <h4 class="mb-2 text-center" >Register</h4>
+            <!-- error messages -->
+                {% for fields, error in form.errors.items %}
+                <div class="alert alert-danger my-3 p-1" role="alert">
+                    {{ error|striptags }}
+                </div>
+                {% endfor %}
+
+            <form id="formAuthentication" class="mb-3" action="." method="POST">
+                {% csrf_token %}
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                {{ form.username }}
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                {{ form.email }}
+              </div>
+              <div class="mb-3 form-password-toggle">
+                <label class="form-label" for="password">Password</label>
+                <div class="input-group input-group-merge">
+                  {{ form.password1 }}
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
+              </div>
+              <div class="mb-3 form-password-toggle">
+                <label class="form-label" for="password">Confirm Password</label>
+                <div class="input-group input-group-merge">
+                  {{ form.password2 }}
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
+              </div>
+              <button class="btn btn-primary d-grid w-100" type="submit">Sign up</button>
+            </form>
+
+            <p class="text-center">
+              <span>Already have an account?</span>
+              <a href="{% url 'core:login' %}">
+                <span>Sign in instead</span>
+              </a>
+            </p>
+          </div>
+        </div>
+        <!-- Register Card -->
+      </div>
+    </div>
+  </div>
+
+  {% endblock content %}

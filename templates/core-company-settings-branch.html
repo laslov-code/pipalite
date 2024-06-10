@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block css %}
+{% endblock css %}
+
+{% block content %}
+<!-- Settings -->
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+      <span class="text-muted fw-light">Settings / Company /</span>
+      Branch
+    </h4>
+    <div class="row">
+      <div class="col-md-12">
+        {% include 'core-company-settings-tab.html' %}
+        <div class="row mb-5">
+          <!-- Card -->
+          {% for branch in branches %}
+          <div class="col-md col-xl-6">
+            <div class="card position-relative mb-3">
+              <div class="row g-0">
+                <div class="col-md-4 p-4">
+                  <img class="card-img card-img-left" 
+                    src="
+                    {% if branch.logo.url != '' %}
+                      {{ branch.logo.url }}
+                    {% else %}
+                      {{company.logo.url}}
+                    {% endif %}
+                    " 
+                    alt="Card image" />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <div class="btn-group position-absolute top-0 end-0 p-2">
+                      <button
+                        type="button"
+                        class="btn btn-outline-light btn-icon dropdown-toggle hide-arrow"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <i class='bx bx-dots-vertical' ></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{% url 'core:branch_edit' branch.pk %}">Edit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core:branch_users' branch.pk %}">View Users</a></li>
+                        <li>
+                          <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Delete</a></li>
+                      </ul>
+                    </div>
+                    <h5 class="card-title">{{ branch.name}}</h5>
+                    <p class="card-text">
+                      {{ branch.address }}
+                    </p>
+                    <p class="card-text"><small class="text-muted">{{ branch.tax_id }}</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          <!-- Card -->
+          <div class="col-md col-xl-4">
+            <a href="#">
+              <div class="card position-relative mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4 p-4">
+                    <img class="card-img card-img-left" 
+                      src="{% static 'assets/img/icons/add.png' %}" 
+                      alt="Card image" />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">Add New Branch</h5>
+                      <p class="card-text">
+                        Create new branch
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+          <!-- Branch -->
+    
+          <!-- /Account -->
+
+{% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript">
+  var loadFile = function(event) {
+      var uploadedHeader = document.getElementById('uploadedHeader');
+      uploadedHeader.src = URL.createObjectURL(event.target.files[0]);
+      uploadedHeader.onload = function() {
+        URL.revokeObjectURL(uploadedHeader.src) // free memory
+      }
+    };
+  
+  document.addEventListener('DOMContentLoaded', function (e) {
+  (function () {
+    let companyHeaderLogo = document.getElementById('headerInput');
+    const companyFileInput = document.querySelector('.company-file-input')
+
+    if (companyHeaderLogo) {
+      const resetImage = companyHeaderLogo.src;
+      companyFileInput.onchange = () => {
+        if (companyFileInput.files[0]) {
+          companyHeaderLogo.src = window.URL.createObjectURL(companyFileInput.files[0]);
+        }
+      };
+    }
+  })();
+});
+  </script>
+<script src="{% static 'assets/js/form-basic-inputs.js' %}"></script>
+<script src="{% static 'assets/js/pages-account-settings-account.js' %}"></script> 
+{% endblock javascript %}

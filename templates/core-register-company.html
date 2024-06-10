@@ -1,0 +1,44 @@
+{% extends 'base_front.html' %}
+{% load static %}
+{% block content %}
+<div class="px-4 py-5 my-5 text-center">
+  <img class="d-block mx-auto mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+  <h1 class="display-5 fw-bold">Looks like you're new.</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">Welcome to Pipalite. Pipalite is an ERP system specifically designed for multi-branch retail stores.</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <form method="POST" action="{% url 'core:add_code' %}">
+        {% csrf_token %}
+        <button
+          name="getCompanyButton" 
+          type="submit" 
+          class="btn btn-primary btn-lg px-4 gap-3"
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="bottom"
+          data-bs-html="true"
+          title="Add a company code."
+          >
+          I already have a Company
+        </button>
+      </form>
+      <form method="POST" action="{% url 'core:add_company' %}">
+        {% csrf_token %}
+        <button 
+          name="addCompanyButton" 
+          type="submit"
+          class="btn btn-outline-secondary btn-lg px-4"
+          data-bs-toggle="tooltip"
+          data-bs-offset="0,4"
+          data-bs-placement="bottom"
+          data-bs-html="true"
+          title="Answer a few questions."
+          >
+          I will make my own Company
+        </button>
+      </form>
+      </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block css %}
+{% endblock css %}
+
+{% block content %}
+<!-- Settings -->
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+      <span class="text-muted fw-light">Settings / Company / Branch / </span>
+      Edit
+    </h4>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-4">
+          <h5 class="card-header">Edit {{ branch.name }}</h5>
+          <!-- Account -->
+          <div class="card-body">
+            <form id="formBranchEdit" 
+              method="POST" 
+              action="." 
+              enctype="multipart/form-data">
+              {% csrf_token %}
+            <div class="row">
+              <div class="mb-3 col-md-6">
+                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                  <img
+                    src="{{ branch.logo.url }}"
+                    alt="company-logo"
+                    class="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="uploadedAvatar"
+                  />
+                  <div class="button-wrapper">
+                    <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                      <span class="d-none d-sm-block">Upload Company Logo</span>
+                      <i class="bx bx-upload d-block d-sm-none"></i>
+                      <input
+                        type="file"
+                        id="upload"
+                        name="upload"
+                        class="account-file-input"
+                        hidden
+                        accept="image/png, image/jpeg"
+                      />
+                    </label>
+                    <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                      <i class="bx bx-reset d-block d-sm-none"></i>
+                      <span class="d-none d-sm-block">Reset</span>
+                    </button>
+                    <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3 col-md-6">
+                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                  <img
+                    src="{{ branch.header_logo.url }}"
+                    alt="company-header"
+                    class="d-block img-fluid"
+                    width="100"
+                    id="uploadedHeader"
+                  />
+                  <div class="mb-3">
+                    <label for="formFile" class="form-label">Upload Header Logo</label>
+                    <input name='headerInput' class="form-control company-file-input" type="file" id="formFile" accept="image/*" onchange="loadFile(event)"/>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="branchName" class="form-label">Branch Name</label>
+                <input type="text" class="form-control" id="branchName" value="{{ branch.name }}" name="branchName" placeholder="{{user.userprofile.company.name }}" />
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="tagline" class="form-label">Tagline</label>
+                <input type="text" class="form-control" id="tagline" value="{{ branch.tagline }}" name="tagline" placeholder="{{ user.userprofile.company.tagline }}" />
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="taxID" class="form-label">Tax ID</label>
+                <input type="text" 
+                  class="form-control" 
+                  id="taxID" 
+                  value="{{ branch.tax_id }}" 
+                  name="taxID" 
+                  placeholder="{{ user.userprofile.company.tax_id }} (inherited from company)" 
+                />
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="address" class="form-label">Address</label>
+                <input 
+                  type="text" 
+                  class="form-control"
+                  id="address" 
+                  value="{{ branch.address.url }}" 
+                  name="address" 
+                  placeholder="{{ user.userprofile.company.address }} (inherited from Company)" 
+                />
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="email" class="form-label">E-mail</label>
+                <input
+                  class="form-control"
+                  type="email"
+                  id="email"
+                  name="email"
+                  value="{{ branch.email }}"
+                  placeholder="{{ user.userprofile.company.email }}"
+                />
+              </div>
+              <div class="mb-3 col-md-6">
+                <label class="form-label" for="contactNumber">Contact Number</label>
+                <div class="input-group input-group-merge">
+                  <span class="input-group-text">PH (+63)</span>
+                  <input
+                    type="text"
+                    id="contactNumber"
+                    name="contactNumber"
+                    class="form-control"
+                    placeholder="{{ branch.contact_num }}"
+                    value="{{ user.userprofile.company.contact_num }}"
+                  />
+                </div>
+              </div>   
+              <div class="mt-2">
+                <button type="submit" name='buttonSubmit' class="btn btn-primary me-2">Save changes</button>
+                <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </form>
+          <!-- /Account -->
+
+{% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript">
+  var loadFile = function(event) {
+      var uploadedHeader = document.getElementById('uploadedHeader');
+      uploadedHeader.src = URL.createObjectURL(event.target.files[0]);
+      uploadedHeader.onload = function() {
+        URL.revokeObjectURL(uploadedHeader.src) // free memory
+      }
+    };
+  
+  document.addEventListener('DOMContentLoaded', function (e) {
+  (function () {
+    let companyHeaderLogo = document.getElementById('headerInput');
+    const companyFileInput = document.querySelector('.company-file-input')
+
+    if (companyHeaderLogo) {
+      const resetImage = companyHeaderLogo.src;
+      companyFileInput.onchange = () => {
+        if (companyFileInput.files[0]) {
+          companyHeaderLogo.src = window.URL.createObjectURL(companyFileInput.files[0]);
+        }
+      };
+    }
+  })();
+});
+  </script>
+<script src="{% static 'assets/js/form-basic-inputs.js' %}"></script>
+<script src="{% static 'assets/js/pages-account-settings-account.js' %}"></script> 
+{% endblock javascript %}
